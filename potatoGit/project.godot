@@ -1,0 +1,29 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Potato"
+run/main_scene="uid://bwmbj5d0lj1qn"
+config/features=PackedStringArray("4.4", "Forward Plus")
+config/icon="res://icon.svg"
+
+[physics]
+
+2d/run_on_separate_thread=true
+common/max_physics_steps_per_frame=24
+common/physics_jitter_fix=0.068
+2d/physics_engine="GodotPhysics2D"
+2d/solver/solver_iterations=24
+common/physics_interpolation=true
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
