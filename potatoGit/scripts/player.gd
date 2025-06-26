@@ -7,11 +7,14 @@ const JUMP_VELOCITY = -300.0
 var current_angle:float = 0.0
 var is_jump:bool = false
 var rot_direction:float = 1.0
+var jump_count = 0
+var do_dash: bool = false
 
 func _physics_process(delta: float) -> void:	
 	# Add the gravity.
 	if not is_on_floor():
-		velocity += get_gravity() * delta 		
+		velocity += get_gravity() * delta 
+		
 		if is_jump:
 			current_angle += delta*720*rot_direction
 		rotation_degrees = current_angle
@@ -22,16 +25,21 @@ func _physics_process(delta: float) -> void:
 		current_angle = 0.0
 		rotation_degrees = 0.0
 		is_jump = false
+		jump_count = 0
 
 
 
 	# Handle jump.
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY 
-		is_jump = true
+	if Input.is_action_just_pressed("jump"):
+		print(jump_count)
+		if jump_count < 2:
+			jump_count += 1 
+			velocity.y = JUMP_VELOCITY 
+			is_jump = true
+			do_dash = false
+		else:
+			do_dash = true
 		#current_angle = 0
-	
-
 
 
 
@@ -54,16 +62,21 @@ func _physics_process(delta: float) -> void:
 		else:
 			animated_sprite.play("Run")
 	else:
-		animated_sprite.play("Jump")
+		animated_sprite.play("Jump")		
 	
 		
 	
 	
 	if direction:
 		velocity.x = direction * SPEED
+		if do_dash:			
+			velocity.x = -JUMP_VELOCITY*direction*1.5
 		#print(direction)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)		
+		
+		
+	
 
 	move_and_slide()
 	
